@@ -7,6 +7,8 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
+import SideBar from "../Sidebar";
+import TopHeader from "../TopHeader";
 
 export default function ManageUser(props) {
   const [user, setuser] = useState([]);
@@ -18,6 +20,7 @@ export default function ManageUser(props) {
   const [phone, setphone] = useState("");
   const [profilePic, setprofilePic] = useState("");
 
+  // useEffect(()/
   useEffect(() => {
     const db = getFirestore();
     const docRef = doc(db, "users", props.match.params.id); //id from url params
@@ -66,88 +69,104 @@ export default function ManageUser(props) {
     event.preventDefault();
   };
 
-  const handleDelete = (event) => {
-    let confirm = window.confirm("Are you sure you want to delete this user?");
-    if (confirm) {
-      const db = getFirestore();
-      const users = doc(db, "users", props.match.params.id);
-      deleteDoc(users)
-        .then(function () {
-          alert("User deleted successfully");
-        })
-        .catch(function (error) {
-          alert("Error deleting user");
-        });
-    } else {
-    }
-  };
+  // const handleDelete = (event) => {
+  //   let confirm = window.confirm("Are you sure you want to delete this user?");
+  //   if (confirm) {
+  //     const db = getFirestore();
+  //     const users = doc(db, "users", props.match.params.id);
+  //     deleteDoc(users)
+  //       .then(function () {
+  //         alert("User deleted successfully");
+  //       })
+  //       .catch(function (error) {
+  //         alert("Error deleting user");
+  //       });
+  //   } else {
+  //   }
+  // };
   return (
     <div>
-      {props.match.params.id}
-      <div>
-        <div style={{ padding: 20 }}>
-          <img src={user?.profilePicture} width="50px" />
-          <h1>{user.name}</h1>
-          <p>{user?.email}</p>
-
-          <button onClick={() => handleDelete()}>Delete User</button>
-          <hr />
-        </div>
-        <div>
-          <h2>Edit User</h2>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Name
-              <input
-                name="Name"
-                type="text"
-                value={name}
-                onChange={(e) => setname(e.target.value)}
-                required
-              />
-            </label>
-            <br />
-            <br />
-            <label>
-              Email:
-              <input
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e) => setemail(e.target.value)}
-                required
-              />
-            </label>
-            <br />
-            <br />
-            <label>
-              Phone
-              <input
-                name="phone"
-                type="tel"
-                value={phone}
-                // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                onChange={(e) => setphone(e.target.value)}
-                required
-              />
-            </label>
-            <br />
-            <br />
-            <label>
-              DOB:
-              <input
-                name="dob"
-                type="date"
-                value={dob}
-                onChange={(e) => setdob(e.target.value)}
-                required
-              />
-            </label>
-            <br />
-            <br />
-            <button>Submit</button>
-          </form>
-        </div>
+      <SideBar />
+      <div className="content-wrapper">
+        <TopHeader headerValue="Edit User" />
+        <section className="content">
+          <div className="card card-primary col-md-8">
+            <div className="card-header">
+              <h3 className="card-title">Edit user</h3>
+            </div>
+            <form onSubmit={handleSubmit}>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="user-name">User Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="user-name"
+                    placeholder="Enter User name"
+                    value={name}
+                    onChange={(e) => setname(e.target.value)}
+                    required
+                  ></input>
+                </div>
+                <div class="form-group">
+                  <label for="user-email">User Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="user-email"
+                    placeholder="Enter User email"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
+                    required
+                  ></input>
+                </div>
+                <div class="form-group">
+                  <label>Date Of Birth</label>
+                  <div
+                    class="input-group date"
+                    id="reservationdate"
+                    data-target-input="nearest"
+                  >
+                    <input
+                      type="text"
+                      class="form-control datetimepicker-input"
+                      data-target="#reservationdate"
+                      value={dob}
+                      onChange={(e) => setdob(e.target.value)}
+                      required
+                    />
+                    <div
+                      class="input-group-append"
+                      data-target="#reservationdate"
+                      data-toggle="datetimepicker"
+                    >
+                      <div class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="user-phone">Phone Number</label>
+                  <input
+                    // type="text"
+                    class="form-control"
+                    id="user-dob"
+                    placeholder="Enter Phone Number"
+                    type="tel"
+                    value={phone}
+                    // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                    onChange={(e) => setphone(e.target.value)}
+                    required
+                  ></input>
+                </div>
+              </div>
+              <div>
+                <button class="btn ml-auto btn-success">Update User</button>
+              </div>
+            </form>
+          </div>
+        </section>
       </div>
     </div>
   );

@@ -6,6 +6,8 @@ import {
   FieldValue,
   doc,
 } from "firebase/firestore";
+import TopHeader from "../TopHeader";
+import SideBar from "../Sidebar";
 
 export default function NewUser() {
   const [createdTime, setcreatedTime] = useState("");
@@ -34,7 +36,7 @@ export default function NewUser() {
     });
     docRef
       .then(function (docRef) {
-        alert("Success")
+        alert("Success");
       })
       .catch(function (error) {
         console.error("Error adding document: ", error);
@@ -44,59 +46,61 @@ export default function NewUser() {
 
   return (
     <div>
-      <h1>New User</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name
-          <input
-            name="Name"
-            type="text"
-            value={name}
-            onChange={(e) => setname(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <br />
-        <label>
-          Email:
-          <input
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setemail(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <br />
-        <label>
-          Phone
-          <input
-            name="phone"
-            type="tel"
-            value={phone}
-            // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-            onChange={(e) => setphone(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <br />
-        <label>
-          DOB:
-          <input
-            name="dob"
-            type="date"
-            value={dob}
-            onChange={(e) => setdob(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <br />
-        <button>Submit</button>
-      </form>
+      <SideBar />
+      <div className="content-wrapper">
+        <TopHeader headerValue="Add New User" />
+        <section className="content">
+          <form className="col-7" onSubmit={handleSubmit}>
+            <div class="form-group">
+              <label for="Name">Name</label>
+              <input
+                type="text"
+                id="Name"
+                value={name}
+                onChange={(e) => setname(e.target.value)}
+                required
+                class="form-control"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">E-Mail</label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                value={email}
+                onChange={(e) => setemail(e.target.value)}
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input
+                type="tel"
+                id="phone"
+                class="form-control"
+                value={phone}
+                // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                onChange={(e) => setphone(e.target.value)}
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="inputMessage">DOB:</label>
+              <input
+                name="dob"
+                type="date"
+                value={dob}
+                class="form-control"
+                onChange={(e) => setdob(e.target.value)}
+                required
+              />{" "}
+            </div>
+
+            <button className="btn btn-success">Submit</button>
+          </form>
+        </section>
+      </div>
     </div>
   );
 }

@@ -18,6 +18,10 @@ import ManageUser from "./components/users/ManageUser";
 import NewUser from "./components/users/NewUser";
 import AccessDenied from "./pages/auth/AccessDenied";
 import NotFound from "./pages/NotFound";
+import AllWorkspaces from "./pages/workspace/Allworkspaces";
+import AllBookingRequests from "./pages/bookingRequests/AllBookingRequests";
+import NewWorkspace from "./components/workspace/newWorkspace";
+import EditWorkspace from "./components/workspace/editWorkspace";
 
 export default function App(props) {
   const [currentUser, setcurretUser] = useState(null);
@@ -52,18 +56,28 @@ export default function App(props) {
 
                 <Route exact path="/login" component={LoginPage} />
 
-                <Route exact path="/users" component={AllUsers} />
+                <Route exact path="/registered-users" component={AllUsers} />
+                <Route exact path="/workspaces" component={AllWorkspaces} />
+                <Route
+                  exact
+                  path="/booking-requests"
+                  component={AllBookingRequests}
+                />
 
                 <Route exact path="/create-user" component={NewUser} />
+                <Route
+                  exact
+                  path="/create-workspace"
+                  component={NewWorkspace}
+                />
 
                 <Route exact path="/users/:id" component={ManageUser} />
+                <Route exact path="/workspace/:id" component={EditWorkspace} />
               </div>
             ) : (
               <div>
                 <Route exact path="/" component={AccessDenied} />
                 <Route exact path="/login" component={LoginPage} />
-
-                
               </div>
             )}
           </Switch>
