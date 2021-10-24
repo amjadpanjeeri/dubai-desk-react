@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  getFirestore,
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
 import { getAuth } from "firebase/auth";
+import { dropzone } from "react-dropzone";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getApp } from "firebase/app";
+
 // import * as firebase from "firebase/app";
-// import * as storage from "firebase/storage";1
+// import * as storage from "firebase/storage";
 // import {TaskEvent} from "firebase/storage";
 
 export default function EditWorkspace(props) {
+  const storage = getStorage();
+  const firebaseApp = getApp();
   const auth = getAuth();
   const [addedby, setaddedby] = useState("");
   const [additionalFacilities, setadditionalFacilities] = useState([]);
@@ -65,13 +67,42 @@ export default function EditWorkspace(props) {
     const db = getFirestore();
     console.log(props.match.params.id);
     const editingWorkspace = doc(db, "workspace", props.match.params.id);
-    // console.log(editingWorkspace);
-    // let file = workspaceimagefile;
-    // // var storage = firebase.storage();
-    // var storageRef = storage.ref();
+    console.log(editingWorkspace);
+    let file = workspaceimagefile;
+    // var storage = firebase.storage();
+    const storageRef = ref(
+      storage,
+      "workspaces/" + props.match.params.id + "/" + file["name"]
+    );
+    const metadata = {
+      contentType: "image/jpeg",
+    };
     // var uploadTask = storageRef
     //   .child("workspaces/" + props.match.params.id)
     //   .put(file);
+    const uploadTask = uploadBytes(storageRef, file, metadata).then(
+      "state_changed",
+      (snapshot) => {
+        console.log(132);
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+        });
+      }
+    );
+    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      console.log("File available at", downloadURL);
+    });
+    // console.log(uploadTask);
     // uploadTask.on(
     //   storage.TaskEvent.STATE_CHANGED,
     //   (snapshot) => {
@@ -294,7 +325,7 @@ export default function EditWorkspace(props) {
                         className="custom-file-label"
                         htmlFor="workspace-image"
                       >
-                        {workspaceimagefile || "Choose file"}
+                        {workspaceimagefile["name"] || "Choose file"}
                       </label>
                     </div>
                     <div className="input-group-append">

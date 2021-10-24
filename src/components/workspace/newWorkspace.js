@@ -3,6 +3,7 @@ import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
 import { getAuth } from "firebase/auth";
+import {dropzone} from 'react-dropzone';
 
 export default function NewWorkspace(props) {
   const auth = getAuth();
