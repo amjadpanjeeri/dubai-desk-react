@@ -4,18 +4,16 @@ import {
   getFirestore,
   collection,
   query,
-  where,
   orderBy,
   doc,
   deleteDoc,
-  limit,
   getDocs,
 } from "firebase/firestore";
-import UsersCard from "../../components/users/UsersCard";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/Sidebar";
-import NavBar from "../../components/NavBar";
 import TopHeader from "../../components/TopHeader";
+// import { useDropzone } from "react-dropzone";
+
 
 export default function AllWorkspaces() {
   const [workspaces, setworkspaces] = useState([]);

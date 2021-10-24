@@ -10,9 +10,9 @@ import {
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
 import { getAuth, signOut } from "firebase/auth";
-import * as firebase from "firebase/app";
-import * as storage from "firebase/storage";
-import {TaskEvent} from "firebase/storage";
+// import * as firebase from "firebase/app";
+// import * as storage from "firebase/storage";1
+// import {TaskEvent} from "firebase/storage";
 
 export default function EditWorkspace(props) {
   const auth = getAuth();
