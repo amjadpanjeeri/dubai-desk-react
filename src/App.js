@@ -18,6 +18,7 @@ import AllWorkspaces from "./pages/workspace/Allworkspaces";
 import AllBookingRequests from "./pages/bookingRequests/AllBookingRequests";
 import NewWorkspace from "./components/workspace/newWorkspace";
 import EditWorkspace from "./components/workspace/editWorkspace";
+import AllRequests from "./pages/Ejarirequests/AllEjariRequests";
 
 export default function App(props) {
   const [currentUser, setcurretUser] = useState(null);
@@ -54,6 +55,7 @@ export default function App(props) {
 
                 <Route exact path="/registered-users" component={AllUsers} />
                 <Route exact path="/workspaces" component={AllWorkspaces} />
+                <Route exact path="/requests" component={AllRequests} />
                 <Route
                   exact
                   path="/booking-requests"
