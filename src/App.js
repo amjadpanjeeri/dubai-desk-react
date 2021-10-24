@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import firebaseConfig from "./firebase/firebaseConfig";
 import { initializeApp } from "firebase/app";
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useRouteMatch,
-  useParams,
 } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Dashboard from "./pages/Dashboard";
@@ -17,7 +14,6 @@ import AllUsers from "./pages/user/AllUsers";
 import ManageUser from "./components/users/ManageUser";
 import NewUser from "./components/users/NewUser";
 import AccessDenied from "./pages/auth/AccessDenied";
-import NotFound from "./pages/NotFound";
 import AllWorkspaces from "./pages/workspace/Allworkspaces";
 import AllBookingRequests from "./pages/bookingRequests/AllBookingRequests";
 import NewWorkspace from "./components/workspace/newWorkspace";

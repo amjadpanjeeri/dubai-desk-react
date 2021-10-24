@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
   getFirestore,
-  collection,
-  setDoc,
-  FieldValue,
   doc,
   getDoc,
 } from "firebase/firestore";
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 // import * as firebase from "firebase/app";
 // import * as storage from "firebase/storage";1
 // import {TaskEvent} from "firebase/storage";

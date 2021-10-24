@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {
-  getFirestore,
-  collection,
-  setDoc,
-  FieldValue,
-  doc,
-} from "firebase/firestore";
+import React, {  useState } from "react";
+import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 export default function NewWorkspace(props) {
   const auth = getAuth();
@@ -95,9 +89,7 @@ export default function NewWorkspace(props) {
                   ></textarea>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="description">
-                    Workspace Description
-                  </label>
+                  <label htmlFor="description">Workspace Description</label>
                   <textarea
                     className="form-control"
                     rows="4"
