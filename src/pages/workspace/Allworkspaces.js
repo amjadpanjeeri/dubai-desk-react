@@ -132,7 +132,7 @@ export default function AllWorkspaces() {
                           <th>Owner Name</th>
                           <th>WeekDays Time</th>
                           <th>WorkDays Time</th>
-                          <th>Workspace Type</th>
+                          {/* <th>Workspace Type</th> */}
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -156,7 +156,7 @@ export default function AllWorkspaces() {
                                   {workspace.time["fr-from"]} to{" "}
                                   {workspace.time["fr-to"]}
                                 </td>
-                                <td>{workspace.workspaceType}</td>
+                                {/* <td>{workspace.workspaceType}</td> */}
                                 <td>
                                   <div className="text-center">
                                     <Link

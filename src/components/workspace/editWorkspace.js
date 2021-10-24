@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
 import { getAuth } from "firebase/auth";
 import { dropzone } from "react-dropzone";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { getApp } from "firebase/app";
 
 // import * as firebase from "firebase/app";
@@ -50,7 +55,7 @@ export default function EditWorkspace(props) {
         setendto(docSnap.data().time["fr-to"]);
         setlastUpdated(docSnap.data().lastUpdated);
         setname(docSnap.data().name);
-        setowner(docSnap.data().ownerId);
+        setowner(docSnap.data().owner);
         setphotoUrl(docSnap.data().photoUrl);
         setworkspace(docSnap.data().workspaceType);
       } else {
@@ -63,11 +68,8 @@ export default function EditWorkspace(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("auth.currentUser.email");
     const db = getFirestore();
-    console.log(props.match.params.id);
     const editingWorkspace = doc(db, "workspace", props.match.params.id);
-    console.log(editingWorkspace);
     let file = workspaceimagefile;
     // var storage = firebase.storage();
     const storageRef = ref(
@@ -77,10 +79,7 @@ export default function EditWorkspace(props) {
     const metadata = {
       contentType: "image/jpeg",
     };
-    // var uploadTask = storageRef
-    //   .child("workspaces/" + props.match.params.id)
-    //   .put(file);
-    const uploadTask = uploadBytes(storageRef, file, metadata).then(
+    const uploadTask = uploadBytesResumable(storageRef, file, metadata).on(
       "state_changed",
       (snapshot) => {
         console.log(132);
@@ -89,69 +88,51 @@ export default function EditWorkspace(props) {
         console.log("Upload is " + progress + "% done");
       },
       (error) => {
+        alert("failed");
         // Handle unsuccessful uploads
       },
       () => {
+        alert("success");
+        console.log(uploadTask);
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(storageRef).then((downloadURL) => {
           console.log("File available at", downloadURL);
+          setphotoUrl(downloadURL);
         });
       }
     );
-    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      console.log("File available at", downloadURL);
-    });
-    // console.log(uploadTask);
-    // uploadTask.on(
-    //   storage.TaskEvent.STATE_CHANGED,
-    //   (snapshot) => {
-    //     var progress =
-    //       Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //     console.log(progress);
-    //   },
-    //   (error) => {
-    //     throw error;
-    //   },
-    //   () => {
-    //     uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-    //       console.log(url);
-    //       // this.setState({
-    //       //   downloadURL: url,
-    //       // });
-    //     });
-    //   }
-    // );
 
-    // const docRef = setDoc(
-    //   editingWorkspace,
-    //   {
-    //     lastUpdated: new Date(),
-    //     addedby: auth.currentUser.email,
-    //     additionalFacilities: [],
-    //     owner: owner,
-    //     address: address,
-    //     time: {
-    //       "mo-from": weekfrom,
-    //       "mo-to": weekto,
-    //       "fr-from": endfrom,
-    //       "fr-to": endto,
-    //     },
-    //     workspaceType: workspace,
-    //     name: name || "No Name",
-    //     photoUrl: photoUrl,
-    //   },
-    //   { merge: true }
-    // );
-    // console.log(docRef);
-    // docRef
-    //   .then(function (docRef) {
-    //     alert("Success");
-    //   })
-    //   .catch(function (error) {
-    //     console.error("Error adding workspace: ", error);
-    //     alert(`Error adding workspace: ${error}`);
-    //   });
+    const docRef = setDoc(
+      editingWorkspace,
+      {
+        lastUpdated: new Date(),
+        addedby: auth.currentUser.email,
+        additionalFacilities: [],
+        owner: owner,
+        address: address,
+        time: {
+          "mo-from": weekfrom,
+          "mo-to": weekto,
+          "fr-from": endfrom,
+          "fr-to": endto,
+        },
+        workspaceType: workspace,
+        spaceId:props.match.params.id,
+        name: name || "No Name",
+        photoUrl: photoUrl,
+      },
+      { merge: true }
+    );
+    console.log(docRef);
+    docRef
+      .then(function (docRef) {
+        alert("Success");
+      })
+      .catch(function (error) {
+        console.error("Error adding workspace: ", error);
+        alert(`Error adding workspace: ${error}`);
+      });
   };
 
   return (
@@ -341,7 +322,9 @@ export default function EditWorkspace(props) {
                   width="400"
                 />
               </div>
-              <button className="btn btn-success">Update Workspace</button>
+              <div className="modal-footer justify-content-between">
+                <button className="btn btn-success">Update Workspace</button>
+              </div>
             </form>
           </div>
 

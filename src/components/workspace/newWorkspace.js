@@ -1,12 +1,25 @@
-import React, {  useState } from "react";
-import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
+import React, { useState } from "react";
+import {
+  getFirestore,
+  collection,
+  setDoc,
+  doc,
+  documentId,
+} from "firebase/firestore";
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
 import { getAuth } from "firebase/auth";
-import {dropzone} from 'react-dropzone';
+import { dropzone } from "react-dropzone";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 export default function NewWorkspace(props) {
   const auth = getAuth();
+  const storage = getStorage();
   const [addedby, setaddedby] = useState("");
   const [additionalFacilities, setadditionalFacilities] = useState("");
   const [address, setaddress] = useState("");
@@ -20,13 +33,51 @@ export default function NewWorkspace(props) {
   const [workspace, setworkspace] = useState("");
   const [name, setname] = useState("");
   const [photoUrl, setphotoUrl] = useState("");
+  const [workspaceimagefile, setworkspaceimagefile] = useState("");
   const [owner, setowner] = useState("");
+  const [id, setid] = useState("");
 
   const handleSubmit = (event) => {
     console.log(auth.currentUser.email);
     const db = getFirestore();
-    const workspace = doc(collection(db, "workspace"));
-    const docRef = setDoc(workspace, {
+
+    const workspaceId = doc(collection(db, "workspace"));
+    console.log();
+    setid(workspaceId.id);
+    let file = workspaceimagefile;
+
+    const storageRef = ref(
+      storage,
+      "workspaces/" + workspaceId.id + "/" + file["name"]
+    );
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+    const uploadTask = uploadBytesResumable(storageRef, file, metadata).on(
+      "state_changed",
+      (snapshot) => {
+        console.log(132);
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {
+        alert("failed");
+        // Handle unsuccessful uploads
+      },
+      () => {
+        alert("success");
+        console.log(uploadTask);
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(storageRef).then((downloadURL) => {
+          setphotoUrl(downloadURL);
+          console.log(photoUrl);
+          console.log("File available at", downloadURL);
+        });
+      }
+    );
+    const docRef = setDoc(workspaceId, {
       lastUpdated: new Date(),
       addedby: auth.currentUser.email,
       additionalFacilities: "",
@@ -38,6 +89,7 @@ export default function NewWorkspace(props) {
         "fr-from": endfrom,
         "fr-to": endto,
       },
+      spaceId:workspaceId.id,
       workspaceType: workspace,
       name: name || "No Name",
       photoUrl: photoUrl,
@@ -74,7 +126,7 @@ export default function NewWorkspace(props) {
                     placeholder="Enter Workspace name"
                     value={name}
                     onChange={(e) => setname(e.target.value)}
-                    required
+                    // required
                   ></input>
                 </div>
                 <div className="form-group">
@@ -86,7 +138,7 @@ export default function NewWorkspace(props) {
                     placeholder="Enter address"
                     value={address}
                     onChange={(e) => setaddress(e.target.value)}
-                    required
+                    // required
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -98,7 +150,7 @@ export default function NewWorkspace(props) {
                     placeholder="Enter description"
                     value={description}
                     onChange={(e) => setdescription(e.target.value)}
-                    required
+                    // required
                   ></textarea>
                 </div>
                 <div className="form-group">
@@ -143,129 +195,57 @@ export default function NewWorkspace(props) {
                     onChange={(e) => setowner(e.target.value)}
                   ></input>
                 </div>
-                <div className="bootstrap-timepicker">
-                  <div className="form-group">
-                    <label htmlFor="open-time">Opening Time (WeekDays)</label>
-
-                    <div
-                      className="input-group date"
-                      id="timepicker"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        className="form-control datetimepicker-input"
-                        data-target="#timepicker"
-                        id="weekdays-opening"
-                        value={weekfrom}
-                        class="form-control"
-                        onChange={(e) => setweekfrom(e.target.value)}
-                        required
-                      />
-                      <div
-                        className="input-group-append"
-                        data-target="#timepicker"
-                        data-toggle="datetimepicker"
-                      >
-                        <div className="input-group-text">
-                          <i className="far fa-clock"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="weekdays-opening">
+                    Opening Time (WeekDays)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="weekdays-opening"
+                    placeholder="Enter Opening time"
+                    value={weekfrom}
+                    onChange={(e) => setweekfrom(e.target.value)}
+                  ></input>
                 </div>
-                <div className="bootstrap-timepicker">
-                  <div className="form-group">
-                    <label htmlFor="open-time">Closing Time (WeekDays)</label>
-
-                    <div
-                      className="input-group date"
-                      id="timepicker"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        className="form-control datetimepicker-input"
-                        data-target="#timepicker"
-                        id="weekdays-closing"
-                        value={weekto}
-                        class="form-control"
-                        onChange={(e) => setweekto(e.target.value)}
-                        required
-                      />
-                      <div
-                        className="input-group-append"
-                        data-target="#timepicker"
-                        data-toggle="datetimepicker"
-                      >
-                        <div className="input-group-text">
-                          <i className="far fa-clock"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="weekdays-closing">
+                    closing Time (WeekDays)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="weekdays-closing"
+                    placeholder="Enter closing time"
+                    value={weekto}
+                    onChange={(e) => setweekto(e.target.value)}
+                  ></input>
                 </div>
-                <div className="bootstrap-timepicker">
-                  <div className="form-group">
-                    <label htmlFor="open-time">Opening Time (Weekend)</label>
-
-                    <div
-                      className="input-group date"
-                      id="timepicker"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        className="form-control datetimepicker-input"
-                        data-target="#timepicker"
-                        id="weekend-opening"
-                        value={endfrom}
-                        class="form-control"
-                        onChange={(e) => setendfrom(e.target.value)}
-                        required
-                      />
-                      <div
-                        className="input-group-append"
-                        data-target="#timepicker"
-                        data-toggle="datetimepicker"
-                      >
-                        <div className="input-group-text">
-                          <i className="far fa-clock"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="weekend-opening">
+                    Opening Time (Weekend)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="weekend-opening"
+                    placeholder="Enter Opening time"
+                    value={endfrom}
+                    onChange={(e) => setendfrom(e.target.value)}
+                  ></input>
                 </div>
-                <div className="bootstrap-timepicker">
-                  <div className="form-group">
-                    <label htmlFor="open-time">Closing Time (Weekend)</label>
-
-                    <div
-                      className="input-group date"
-                      id="timepicker"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        className="form-control datetimepicker-input"
-                        data-target="#timepicker"
-                        id="weekend-closing"
-                        value={endto}
-                        class="form-control"
-                        onChange={(e) => setendto(e.target.value)}
-                        required
-                      />
-                      <div
-                        className="input-group-append"
-                        data-target="#timepicker"
-                        data-toggle="datetimepicker"
-                      >
-                        <div className="input-group-text">
-                          <i className="far fa-clock"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="weekend-closing">
+                    closing Time (Weekend)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="weekend-closing"
+                    placeholder="Enter closing time"
+                    value={endto}
+                    onChange={(e) => setendto(e.target.value)}
+                  ></input>
                 </div>
                 <div className="form-group">
                   <label htmlFor="exampleInputFile">Workspace Image</label>
@@ -275,12 +255,15 @@ export default function NewWorkspace(props) {
                         type="file"
                         className="custom-file-input"
                         id="workspace-image"
+                        onChange={(e) =>
+                          setworkspaceimagefile(e.target.files[0])
+                        }
                       ></input>
                       <label
                         className="custom-file-label"
                         htmlFor="workspace-image"
                       >
-                        Choose file
+                        {workspaceimagefile["name"] || "Choose file"}
                       </label>
                     </div>
                     <div className="input-group-append">
