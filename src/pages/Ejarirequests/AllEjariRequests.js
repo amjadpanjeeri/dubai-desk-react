@@ -102,7 +102,7 @@ function AllRequests(props) {
     <div>
       <SideBar />
       <div className="content-wrapper">
-        <TopHeader headerValue="Booking Requests" />
+        <TopHeader headerValue="Requests" />
         <section className="content">
           <div class="modal fade" id="modal-success">
             <div class="modal-dialog">
