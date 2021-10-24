@@ -190,6 +190,8 @@ function AllRequests(props) {
                             <th>Requeted Time</th>
                             <th>Type</th>
                             <th>Status</th>
+                            <th>Email</th>
+                            <th>Phone</th>
                             {/* <th>Facilities</th>
                             <th>Additional Facilities</th>
                             <th>Special Requests</th>
@@ -199,7 +201,7 @@ function AllRequests(props) {
                             <th>To Date</th>
                             <th>From Time</th>
                             <th>To Time</th> */}
-                            {/* <th>Actions</th> */}
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -215,28 +217,38 @@ function AllRequests(props) {
                                   </td>
                                   <td>{bookingRequest.type}</td>
                                   <td>{bookingRequest.status}</td>
+                                  <td>{bookingRequest.email || ""}</td>
+                                  <td>{bookingRequest.phone || ""}</td>
                                   <td>
-                                    <div className="text-center">
-                                      <a
-                                        href="#"
-                                        className="btn btn-sm btn-success"
-                                        onClick={() =>
-                                          handleAccept(bookingRequest.requestId)
-                                        }
-                                      >
-                                        Accept
-                                      </a>
-                                      &nbsp;
-                                      <a
-                                        href="#"
-                                        className="btn btn-sm btn-danger"
-                                        onClick={() =>
-                                          handleReject(bookingRequest.requestId)
-                                        }
-                                      >
-                                        Reject
-                                      </a>
-                                    </div>
+                                    {bookingRequest.status === "requested" ? (
+                                      <div className="text-center">
+                                        <a
+                                          href="#"
+                                          className="btn btn-sm btn-success"
+                                          onClick={() =>
+                                            handleAccept(
+                                              bookingRequest.requestId
+                                            )
+                                          }
+                                        >
+                                          Accept
+                                        </a>
+                                        &nbsp;
+                                        <a
+                                          href="#"
+                                          className="btn btn-sm btn-danger"
+                                          onClick={() =>
+                                            handleReject(
+                                              bookingRequest.requestId
+                                            )
+                                          }
+                                        >
+                                          Reject
+                                        </a>
+                                      </div>
+                                    ) : (
+                                      <div>{bookingRequest.status}</div>
+                                    )}
                                   </td>
                                 </tr>
                               );
