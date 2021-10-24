@@ -187,12 +187,12 @@ function AllEjariRequests(props) {
                     <table className="table table-hover text-nowrap">
                       <thead>
                         <tr>
-                          <th>User Id</th>
+                          <th>Email</th>
+                          <th>Phone</th>
                           <th>Requeted Time</th>
                           {/* <th>Type</th> */}
                           <th>Status</th>
-                          <th>Email</th>
-                          <th>Phone</th>
+
                           {/* <th>Facilities</th>
                             <th>Additional Facilities</th>
                             <th>Special Requests</th>
@@ -210,14 +210,14 @@ function AllEjariRequests(props) {
                           requests.map((bookingRequest, index) => {
                             return (
                               <tr>
-                                <td>{bookingRequest.userId}</td>
+                                <td>{bookingRequest.clientEmail || ""}</td>
+                                <td>{bookingRequest.clientPhone || ""}</td>
                                 <td>
                                   {bookingRequest.time.toDate().toDateString()}
                                 </td>
                                 {/* <td>{bookingRequest.type}</td> */}
                                 <td>{bookingRequest.status}</td>
-                                <td>{bookingRequest.clientEmail || ""}</td>
-                                <td>{bookingRequest.clientPhone || ""}</td>
+
                                 <td>
                                   {bookingRequest.status === "requested" ? (
                                     <div className="text-center">
@@ -242,7 +242,9 @@ function AllEjariRequests(props) {
                                       </a>
                                     </div>
                                   ) : (
-                                    <div className="text-center">{bookingRequest.status}</div>
+                                    <div className="text-center">
+                                      {bookingRequest.status}
+                                    </div>
                                   )}
                                 </td>
                               </tr>

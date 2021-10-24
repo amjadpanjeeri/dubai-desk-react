@@ -45,10 +45,13 @@ export default function NewWorkspace(props) {
     console.log();
     setid(workspaceId.id);
     let file = workspaceimagefile;
-
+    console.log(file);
     const storageRef = ref(
       storage,
-      "workspaces/" + workspaceId.id + "/" + file["name"]
+      "workspaces/" +
+        workspaceId.id +
+        "/" +
+        `${workspaceId.id}.${workspaceimagefile["name"].split(".").pop()}`
     );
     const metadata = {
       contentType: "image/jpeg",
@@ -66,41 +69,55 @@ export default function NewWorkspace(props) {
         // Handle unsuccessful uploads
       },
       () => {
-        alert("success");
         console.log(uploadTask);
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(storageRef).then((downloadURL) => {
           setphotoUrl(downloadURL);
-          console.log(photoUrl);
+          console.log(description);
           console.log("File available at", downloadURL);
+          const docRef = setDoc(workspaceId, {
+            lastUpdated: new Date(),
+            addedby: auth.currentUser.email,
+            additionalFacilities: "",
+            description: description,
+            owner: owner,
+            address: address,
+            time: {
+              "mo-from": weekfrom,
+              "mo-to": weekto,
+              "fr-from": endfrom,
+              "fr-to": endto,
+            },
+            spaceId: workspaceId.id,
+            workspaceType: workspace,
+            name: name || "No Name",
+            photoUrl: downloadURL,
+          });
+          docRef
+            .then(function (docRef) {
+              alert("Workspace Added Successfully");
+
+            })
+            .catch(function (error) {
+              console.error("Error adding workspace: ", error);
+            });
+            setaddedby("");
+            setaddress("");
+            setdescription("");
+            setdescription("");
+            setendfrom("");
+            setendto("");
+            setname("");
+            setowner("");
+            setweekfrom("");
+            setweekto("");
+            setworkspace("");
+            setworkspaceimagefile("");
         });
       }
     );
-    const docRef = setDoc(workspaceId, {
-      lastUpdated: new Date(),
-      addedby: auth.currentUser.email,
-      additionalFacilities: "",
-      owner: owner,
-      address: address,
-      time: {
-        "mo-from": weekfrom,
-        "mo-to": weekto,
-        "fr-from": endfrom,
-        "fr-to": endto,
-      },
-      spaceId:workspaceId.id,
-      workspaceType: workspace,
-      name: name || "No Name",
-      photoUrl: photoUrl,
-    });
-    docRef
-      .then(function (docRef) {
-        alert("Success");
-      })
-      .catch(function (error) {
-        console.error("Error adding workspace: ", error);
-      });
+
     event.preventDefault();
   };
 

@@ -147,7 +147,7 @@ export default function AllWorkspaces() {
                                 <td>{workspace.address}</td>
                                 <td>{workspace.description}</td>
                                 <td>{workspace.lastUpdated.toDate().toDateString()}</td>
-                                <td>{workspace.ownerId}</td>
+                                <td>{workspace.owner}</td>
                                 <td>
                                   {workspace.time["mo-from"]} to{" "}
                                   {workspace.time["mo-to"]}

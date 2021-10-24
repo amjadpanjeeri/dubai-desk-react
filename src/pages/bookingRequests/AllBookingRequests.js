@@ -127,7 +127,7 @@ function AllBookingRequests(props) {
                     <table className="table table-hover text-nowrap">
                       <thead>
                         <tr>
-                          <th>User Name</th>
+                          <th>User Email</th>
                           <th>Workspace Name</th>
                           <th>Workspace Type</th>
                           <th>Specification</th>
@@ -148,7 +148,7 @@ function AllBookingRequests(props) {
                           bookingRequests.map((bookingRequest, index) => {
                             return (
                               <tr>
-                                <td>{bookingRequest.userId}</td>
+                                <td>{bookingRequest.clientEmail}</td>
                                 <td>{bookingRequest.spaceId}</td>
                                 <td>{bookingRequest.type}</td>
                                 <td>{bookingRequest.spec}</td>

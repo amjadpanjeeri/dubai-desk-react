@@ -71,15 +71,12 @@ export default function EditWorkspace(props) {
     const db = getFirestore();
     const editingWorkspace = doc(db, "workspace", props.match.params.id);
     let file = workspaceimagefile;
-    // var storage = firebase.storage();
     const storageRef = ref(
       storage,
       "workspaces/" +
         props.match.params.id +
         "/" +
-        props.match.params.id +
-        "." +
-        file["type"]
+        `${props.match.params.id}.${workspaceimagefile['name'].split('.').pop()}`
     );
     const metadata = {
       contentType: "image/jpeg",
@@ -97,47 +94,46 @@ export default function EditWorkspace(props) {
         // Handle unsuccessful uploads
       },
       () => {
-        alert("success");
         console.log(uploadTask);
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(storageRef).then((downloadURL) => {
-          console.log("File available at", downloadURL);
           setphotoUrl(downloadURL);
+          console.log("File available at", downloadURL);
+          const docRef = setDoc(
+            editingWorkspace,
+            {
+              lastUpdated: new Date(),
+              addedby: auth.currentUser.email,
+              additionalFacilities: [],
+              owner: owner,
+              description:description,
+              address: address,
+              time: {
+                "mo-from": weekfrom,
+                "mo-to": weekto,
+                "fr-from": endfrom,
+                "fr-to": endto,
+              },
+              workspaceType: workspace,
+              spaceId: props.match.params.id,
+              name: name || "No Name",
+              photoUrl: downloadURL,
+            },
+            { merge: true }
+          );
+          console.log(docRef);
+          docRef
+            .then(function (docRef) {
+              alert("Workspace Added Successfully");
+            })
+            .catch(function (error) {
+              console.error("Error adding workspace: ", error);
+              alert(`Error adding workspace: ${error}`);
+            });
         });
       }
     );
-
-    const docRef = setDoc(
-      editingWorkspace,
-      {
-        lastUpdated: new Date(),
-        addedby: auth.currentUser.email,
-        additionalFacilities: [],
-        owner: owner,
-        address: address,
-        time: {
-          "mo-from": weekfrom,
-          "mo-to": weekto,
-          "fr-from": endfrom,
-          "fr-to": endto,
-        },
-        workspaceType: workspace,
-        spaceId: props.match.params.id,
-        name: name || "No Name",
-        photoUrl: photoUrl,
-      },
-      { merge: true }
-    );
-    console.log(docRef);
-    docRef
-      .then(function (docRef) {
-        alert("Success");
-      })
-      .catch(function (error) {
-        console.error("Error adding workspace: ", error);
-        alert(`Error adding workspace: ${error}`);
-      });
   };
 
   return (
@@ -306,6 +302,7 @@ export default function EditWorkspace(props) {
                         onChange={(e) =>
                           setworkspaceimagefile(e.target.files[0])
                         }
+                        required
                       ></input>
                       <label
                         className="custom-file-label"
@@ -325,9 +322,10 @@ export default function EditWorkspace(props) {
                   alt={name}
                   height="300"
                   width="400"
+                  
                 />
               </div>
-              <div className="modal-footer justify-content-between">
+              <div className="modal-footer justify-content-right">
                 <button className="btn btn-success">Update Workspace</button>
               </div>
             </form>
