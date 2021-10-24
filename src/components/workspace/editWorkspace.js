@@ -10,11 +10,14 @@ import {
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
 import { getAuth, signOut } from "firebase/auth";
+import * as firebase from "firebase/app";
+import * as storage from "firebase/storage";
+import {TaskEvent} from "firebase/storage";
 
 export default function EditWorkspace(props) {
   const auth = getAuth();
   const [addedby, setaddedby] = useState("");
-  const [additionalFacilities, setadditionalFacilities] = useState("");
+  const [additionalFacilities, setadditionalFacilities] = useState([]);
   const [address, setaddress] = useState("");
   const [description, setdescription] = useState("");
   const [lastUpdated, setlastUpdated] = useState("");
@@ -22,12 +25,12 @@ export default function EditWorkspace(props) {
   const [weekto, setweekto] = useState("");
   const [endfrom, setendfrom] = useState("");
   const [endto, setendto] = useState("");
-  const [time, settime] = useState("");
   const [workspace, setworkspace] = useState("");
   const [name, setname] = useState("");
   const [photoUrl, setphotoUrl] = useState("");
   const [owner, setowner] = useState("");
   const [workspaceObject, setworkspaceObject] = useState("");
+  const [workspaceimagefile, setworkspaceimagefile] = useState("");
 
   useEffect(() => {
     const db = getFirestore();
@@ -42,7 +45,10 @@ export default function EditWorkspace(props) {
         setadditionalFacilities(docSnap.data().additionalFacilities);
         setaddress(docSnap.data().address);
         setdescription(docSnap.data().description);
-        settime(docSnap.data().time);
+        setweekfrom(docSnap.data().time["mo-from"]);
+        setweekto(docSnap.data().time["mo-to"]);
+        setendfrom(docSnap.data().time["fr-from"]);
+        setendto(docSnap.data().time["fr-to"]);
         setlastUpdated(docSnap.data().lastUpdated);
         setname(docSnap.data().name);
         setowner(docSnap.data().ownerId);
@@ -63,36 +69,61 @@ export default function EditWorkspace(props) {
     console.log(props.match.params.id);
     const editingWorkspace = doc(db, "workspace", props.match.params.id);
     // console.log(editingWorkspace);
-    const docRef = setDoc(
-      editingWorkspace,
-      {
-        lastUpdated: new Date(),
-        addedby: auth.currentUser.email,
-        additionalFacilities: "",
-        owner: owner,
-        address: address,
-        time: {
-          "mo-from": weekfrom,
-          "mo-to": weekto,
-          "fr-from": endfrom,
-          "fr-to": endto,
-        },
-        workspaceType: workspace,
-        name: name || "No Name",
-        photoUrl: photoUrl,
-      },
-      { merge: true }
-    );
-    console.log(docRef);
-    docRef
-      .then(function (docRef) {
-        alert("Success");
-      })
-      .catch(function (error) {
-        console.error("Error adding workspace: ", error);
-        alert(`Error adding workspace: ${error}`);
-      });
+    // let file = workspaceimagefile;
+    // // var storage = firebase.storage();
+    // var storageRef = storage.ref();
+    // var uploadTask = storageRef
+    //   .child("workspaces/" + props.match.params.id)
+    //   .put(file);
+    // uploadTask.on(
+    //   storage.TaskEvent.STATE_CHANGED,
+    //   (snapshot) => {
+    //     var progress =
+    //       Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //     console.log(progress);
+    //   },
+    //   (error) => {
+    //     throw error;
+    //   },
+    //   () => {
+    //     uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+    //       console.log(url);
+    //       // this.setState({
+    //       //   downloadURL: url,
+    //       // });
+    //     });
+    //   }
+    // );
 
+    // const docRef = setDoc(
+    //   editingWorkspace,
+    //   {
+    //     lastUpdated: new Date(),
+    //     addedby: auth.currentUser.email,
+    //     additionalFacilities: [],
+    //     owner: owner,
+    //     address: address,
+    //     time: {
+    //       "mo-from": weekfrom,
+    //       "mo-to": weekto,
+    //       "fr-from": endfrom,
+    //       "fr-to": endto,
+    //     },
+    //     workspaceType: workspace,
+    //     name: name || "No Name",
+    //     photoUrl: photoUrl,
+    //   },
+    //   { merge: true }
+    // );
+    // console.log(docRef);
+    // docRef
+    //   .then(function (docRef) {
+    //     alert("Success");
+    //   })
+    //   .catch(function (error) {
+    //     console.error("Error adding workspace: ", error);
+    //     alert(`Error adding workspace: ${error}`);
+    //   });
   };
 
   return (
@@ -160,10 +191,22 @@ export default function EditWorkspace(props) {
                     <option>Virtual Office</option>
                   </select>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="workspace-type">Workspace Facilities</label>
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox"></input>
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value="WiFi"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setadditionalFacilities([
+                            additionalFacilities,
+                            ["WiFi"],
+                          ]);
+                        }
+                      }}
+                    ></input>
                     <label className="form-check-label">WiFi</label>
                   </div>
                   <div className="form-check">
@@ -174,7 +217,7 @@ export default function EditWorkspace(props) {
                     <input className="form-check-input" type="checkbox"></input>
                     <label className="form-check-label">Food</label>
                   </div>
-                </div>
+                </div> */}
                 <div className="form-group">
                   <label htmlFor="owner-name">Owner Name</label>
                   <input
@@ -186,125 +229,57 @@ export default function EditWorkspace(props) {
                     onChange={(e) => setowner(e.target.value)}
                   ></input>
                 </div>
-                <div className="bootstrap-timepicker">
-                  <div className="form-group">
-                    <label htmlFor="open-time">Opening Time (WeekDays)</label>
-
-                    <div
-                      className="input-group date"
-                      id="timepicker"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        className="form-control datetimepicker-input"
-                        data-target="#timepicker"
-                        id="weekdays-opening"
-                        value={time["mo-from"]}
-                        onChange={(e) => setweekfrom(e.target.value)}
-                        // required
-                      />
-                      <div
-                        className="input-group-append"
-                        data-target="#timepicker"
-                        data-toggle="datetimepicker"
-                      >
-                        <div className="input-group-text">
-                          <i className="far fa-clock"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="weekdays-opening">
+                    Opening Time (WeekDays)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="weekdays-opening"
+                    placeholder="Enter Opening time"
+                    value={weekfrom}
+                    onChange={(e) => setweekfrom(e.target.value)}
+                  ></input>
                 </div>
-                <div className="bootstrap-timepicker">
-                  <div className="form-group">
-                    <label htmlFor="open-time">Closing Time (WeekDays)</label>
-
-                    <div
-                      className="input-group date"
-                      id="timepicker"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        className="form-control datetimepicker-input"
-                        data-target="#timepicker"
-                        id="weekdays-closing"
-                        value={time["mo-to"]}
-                        onChange={(e) => setweekto(e.target.value)}
-                        // required
-                      />
-                      <div
-                        className="input-group-append"
-                        data-target="#timepicker"
-                        data-toggle="datetimepicker"
-                      >
-                        <div className="input-group-text">
-                          <i className="far fa-clock"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="weekdays-closing">
+                    closing Time (WeekDays)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="weekdays-closing"
+                    placeholder="Enter closing time"
+                    value={weekto}
+                    onChange={(e) => setweekto(e.target.value)}
+                  ></input>
                 </div>
-                <div className="bootstrap-timepicker">
-                  <div className="form-group">
-                    <label htmlFor="open-time">Opening Time (Weekend)</label>
-
-                    <div
-                      className="input-group date"
-                      id="timepicker"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        className="form-control datetimepicker-input"
-                        data-target="#timepicker"
-                        id="weekend-opening"
-                        value={time["fr-from"]}
-                        onChange={(e) => setendfrom(e.target.value)}
-                        // required
-                      />
-                      <div
-                        className="input-group-append"
-                        data-target="#timepicker"
-                        data-toggle="datetimepicker"
-                      >
-                        <div className="input-group-text">
-                          <i className="far fa-clock"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="weekend-opening">
+                    Opening Time (Weekend)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="weekend-opening"
+                    placeholder="Enter Opening time"
+                    value={endfrom}
+                    onChange={(e) => setendfrom(e.target.value)}
+                  ></input>
                 </div>
-                <div className="bootstrap-timepicker">
-                  <div className="form-group">
-                    <label htmlFor="open-time">Closing Time (Weekend)</label>
-
-                    <div
-                      className="input-group date"
-                      id="timepicker"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        className="form-control datetimepicker-input"
-                        data-target="#timepicker"
-                        id="weekend-closing"
-                        value={time["mo-to"]}
-                        onChange={(e) => setendto(e.target.value)}
-                        // required
-                      />
-                      <div
-                        className="input-group-append"
-                        data-target="#timepicker"
-                        data-toggle="datetimepicker"
-                      >
-                        <div className="input-group-text">
-                          <i className="far fa-clock"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="weekend-closing">
+                    closing Time (Weekend)
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="weekend-closing"
+                    placeholder="Enter closing time"
+                    value={endto}
+                    onChange={(e) => setendto(e.target.value)}
+                  ></input>
                 </div>
                 <div className="form-group">
                   <label htmlFor="exampleInputFile">Workspace Image</label>
@@ -314,12 +289,15 @@ export default function EditWorkspace(props) {
                         type="file"
                         className="custom-file-input"
                         id="workspace-image"
+                        onChange={(e) =>
+                          setworkspaceimagefile(e.target.files[0])
+                        }
                       ></input>
                       <label
                         className="custom-file-label"
                         htmlFor="workspace-image"
                       >
-                        Choose file
+                        {workspaceimagefile || "Choose file"}
                       </label>
                     </div>
                     <div className="input-group-append">
@@ -327,6 +305,13 @@ export default function EditWorkspace(props) {
                     </div>
                   </div>
                 </div>
+                <img
+                  className="ref"
+                  src={photoUrl}
+                  alt={name}
+                  height="300"
+                  width="400"
+                />
               </div>
               <button className="btn btn-success">Update Workspace</button>
             </form>

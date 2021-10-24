@@ -42,7 +42,6 @@
 	}, $.validator.format( "Please enter between {0} and {1} words." ) );
 
 }() );
-
 /**
  * This is used in the United States to process payments, deposits,
  * or transfers using the Automated Clearing House (ACH) or Fedwire
@@ -74,7 +73,6 @@ $.validator.addMethod( "abaRoutingNumber", function( value ) {
 
 	return false;
 }, "Please enter a valid routing number." );
-
 // Accept a value from a file input based on a required mimetype
 $.validator.addMethod( "accept", function( value, element, param ) {
 
@@ -147,13 +145,11 @@ $.validator.addMethod( "bankaccountNL", function( value, element ) {
 	}
 	return sum % 11 === 0;
 }, "Please specify a valid bank account number" );
-
 $.validator.addMethod( "bankorgiroaccountNL", function( value, element ) {
 	return this.optional( element ) ||
 			( $.validator.methods.bankaccountNL.call( this, value, element ) ) ||
 			( $.validator.methods.giroaccountNL.call( this, value, element ) );
 }, "Please specify a valid bank or giro account number" );
-
 /**
  * BIC is the business identifier code (ISO 9362). This BIC check is not a guarantee for authenticity.
  *
@@ -172,7 +168,6 @@ $.validator.addMethod( "bankorgiroaccountNL", function( value, element ) {
 $.validator.addMethod( "bic", function( value, element ) {
     return this.optional( element ) || /^([A-Z]{6}[A-Z2-9][A-NP-Z1-9])(X{3}|[A-WY-Z0-9][A-Z0-9]{2})?$/.test( value.toUpperCase() );
 }, "Please specify a valid BIC code" );
-
 /*
  * Código de identificación fiscal ( CIF ) is the tax identification code for Spanish legal entities
  * Further rules can be found in Spanish on http://es.wikipedia.org/wiki/C%C3%B3digo_de_identificaci%C3%B3n_fiscal
@@ -287,7 +282,6 @@ $.validator.addMethod( "cifES", function( value, element ) {
 	return control === control_digit || control === control_letter;
 
 }, "Please specify a valid CIF number." );
-
 /*
  * Brazillian CNH number (Carteira Nacional de Habilitacao) is the License Driver number.
  * CNH numbers have 11 digits in total: 9 numbers followed by 2 check numbers that are being used for validation.
@@ -337,7 +331,6 @@ $.validator.addMethod( "cnhBR", function( value ) {
   return ( String( firstCN ).concat( secondCN ) === value.substr( -2 ) );
 
 }, "Please specify a valid CNH number" );
-
 /*
  * Brazillian value number (Cadastrado de Pessoas Juridica).
  * value numbers have 14 digits in total: 12 numbers followed by 2 check numbers that are being used for validation.
@@ -412,7 +405,6 @@ $.validator.addMethod( "cnpjBR", function( value, element ) {
 	return true;
 
 }, "Please specify a CNPJ value number" );
-
 /*
  * Brazillian CPF number (Cadastrado de Pessoas Físicas) is the equivalent of a Brazilian tax registration number.
  * CPF numbers have 11 digits in total: 9 numbers followed by 2 check numbers that are being used for validation.
@@ -478,7 +470,6 @@ $.validator.addMethod( "cpfBR", function( value, element ) {
 	return false;
 
 }, "Please specify a valid CPF number" );
-
 // https://jqueryvalidation.org/creditcard-method/
 // based on https://en.wikipedia.org/wiki/Luhn_algorithm
 $.validator.addMethod( "creditcard", function( value, element ) {
@@ -519,7 +510,6 @@ $.validator.addMethod( "creditcard", function( value, element ) {
 
 	return ( nCheck % 10 ) === 0;
 }, "Please enter a valid credit card number." );
-
 /* NOTICE: Modified version of Castle.Components.Validator.CreditCardValidator
  * Redistributed under the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
  * Valid Types: mastercard, visa, amex, dinersclub, enroute, discover, jcb, unknown, all (overrides all other settings)
@@ -589,7 +579,6 @@ $.validator.addMethod( "creditcardtypes", function( value, element, param ) {
 	}
 	return false;
 }, "Please enter a valid credit card number." );
-
 /**
  * Validates currencies with any given symbols by @jameslouiz
  * Symbols can be optional or required. Symbols required by default
@@ -685,14 +674,12 @@ $.validator.addMethod( "extension", function( value, element, param ) {
 	param = typeof param === "string" ? param.replace( /,/g, "|" ) : "png|jpe?g|gif";
 	return this.optional( element ) || value.match( new RegExp( "\\.(" + param + ")$", "i" ) );
 }, $.validator.format( "Please enter a value with a valid extension." ) );
-
 /**
  * Dutch giro account numbers (not bank numbers) have max 7 digits
  */
 $.validator.addMethod( "giroaccountNL", function( value, element ) {
 	return this.optional( element ) || /^[0-9]{1,7}$/.test( value );
 }, "Please specify a valid giro account number" );
-
 $.validator.addMethod( "greaterThan", function( value, element, param ) {
     var target = $( param );
 
@@ -704,7 +691,6 @@ $.validator.addMethod( "greaterThan", function( value, element, param ) {
 
     return value > target.val();
 }, "Please enter a greater value." );
-
 $.validator.addMethod( "greaterThanEqual", function( value, element, param ) {
     var target = $( param );
 
@@ -716,7 +702,6 @@ $.validator.addMethod( "greaterThanEqual", function( value, element, param ) {
 
     return value >= target.val();
 }, "Please enter a greater value." );
-
 /**
  * IBAN is the international bank account number.
  * It has a country - specific format, that is checked here too
@@ -813,7 +798,8 @@ $.validator.addMethod( "iban", function( value, element ) {
 		"TN": "\\d{20}",
 		"TR": "\\d{5}[\\dA-Z]{17}",
 		"AE": "\\d{3}\\d{16}",
-		"GB": "[A-Z]{4}\\d{14}",
+		"GBimport { useDropzone } from "react-dropzone";
+		": "[A-Z]{4}\\d{14}",
 		"VG": "[\\dA-Z]{4}\\d{16}"
 	};
 
@@ -877,7 +863,6 @@ $.validator.addMethod( "lessThan", function( value, element, param ) {
 
     return value < target.val();
 }, "Please enter a lesser value." );
-
 $.validator.addMethod( "lessThanEqual", function( value, element, param ) {
     var target = $( param );
 
@@ -912,7 +897,6 @@ $.validator.addMethod( "maxfiles", function( value, element, param ) {
 
 	return true;
 }, $.validator.format( "Please select no more than {0} files." ) );
-
 // Limit the size of each individual file in a FileList.
 $.validator.addMethod( "maxsize", function( value, element, param ) {
 	if ( this.optional( element ) ) {
@@ -931,7 +915,6 @@ $.validator.addMethod( "maxsize", function( value, element, param ) {
 
 	return true;
 }, $.validator.format( "File size must not exceed {0} bytes each." ) );
-
 // Limit the size of all files in a FileList.
 $.validator.addMethod( "maxsizetotal", function( value, element, param ) {
 	if ( this.optional( element ) ) {
@@ -963,7 +946,6 @@ $.validator.addMethod( "mobileRU", function( phone_number, element ) {
 	var ruPhone_number = phone_number.replace( /\(|\)|\s+|-/g, "" );
 	return this.optional( element ) || ruPhone_number.length > 9 && /^((\+7|7|8)+([0-9]){10})$/.test( ruPhone_number );
 }, "Please specify a valid mobile number" );
-
 /* For UK phone functions, do the following server side processing:
  * Compare original input with this RegEx pattern:
  * ^\(?(?:(?:00\)?[\s\-]?\(?|\+)(44)\)?[\s\-]?\(?(?:0\)?[\s\-]?\(?)?|0)([1-9]\d{1,4}\)?[\s\d\-]+)$
@@ -1021,7 +1003,6 @@ $.validator.addMethod( "nieES", function( value, element ) {
 	return validChars.charAt( parseInt( number, 10 ) % 23 ) === letter;
 
 }, "Please specify a valid NIE number." );
-
 /*
  * The Número de Identificación Fiscal ( NIF ) is the way tax identification used in Spain for individuals
  */
@@ -1052,7 +1033,6 @@ $.validator.addMethod( "nifES", function( value, element ) {
 	return false;
 
 }, "Please specify a valid NIF number." );
-
 /*
  * Numer identyfikacji podatkowej ( NIP ) is the way tax identification used in Poland for companies
  */
@@ -1075,7 +1055,6 @@ $.validator.addMethod( "nipPL", function( value ) {
 
 	return ( intControlNr === parseInt( value[ 9 ], 10 ) );
 }, "Please specify a valid NIP number." );
-
 /**
  * Created for project jquery-validation.
  * @Description Brazillian PIS or NIS number (Número de Identificação Social Pis ou Pasep) is the equivalent of a
@@ -1164,14 +1143,12 @@ $.validator.addMethod( "pattern", function( value, element, param ) {
 	}
 	return param.test( value );
 }, "Invalid format." );
-
 /**
  * Dutch phone numbers have 10 digits (or 11 and start with +31).
  */
 $.validator.addMethod( "phoneNL", function( value, element ) {
 	return this.optional( element ) || /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9]){8}$/.test( value );
 }, "Please specify a valid phone number." );
-
 /**
  * Polish telephone numbers have 9 digits.
  *
@@ -1195,7 +1172,6 @@ $.validator.addMethod( "phonePL", function( phone_number, element ) {
 	var regexp = /^(?:(?:(?:\+|00)?48)|(?:\(\+?48\)))?(?:1[2-8]|2[2-69]|3[2-49]|4[1-68]|5[0-9]|6[0-35-9]|[7-8][1-9]|9[145])\d{7}$/;
 	return this.optional( element ) || regexp.test( phone_number );
 }, "Please specify a valid phone number" );
-
 /* For UK phone functions, do the following server side processing:
  * Compare original input with this RegEx pattern:
  * ^\(?(?:(?:00\)?[\s\-]?\(?|\+)(44)\)?[\s\-]?\(?(?:0\)?[\s\-]?\(?)?|0)([1-9]\d{1,4}\)?[\s\d\-]+)$
@@ -1211,7 +1187,6 @@ $.validator.addMethod( "phonesUK", function( phone_number, element ) {
 	return this.optional( element ) || phone_number.length > 9 &&
 		phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?|0)(?:1\d{8,9}|[23]\d{9}|7(?:[1345789]\d{8}|624\d{6})))$/ );
 }, "Please specify a valid uk phone number" );
-
 /* For UK phone functions, do the following server side processing:
  * Compare original input with this RegEx pattern:
  * ^\(?(?:(?:00\)?[\s\-]?\(?|\+)(44)\)?[\s\-]?\(?(?:0\)?[\s\-]?\(?)?|0)([1-9]\d{1,4}\)?[\s\d\-]+)$
@@ -1225,7 +1200,6 @@ $.validator.addMethod( "phoneUK", function( phone_number, element ) {
 	return this.optional( element ) || phone_number.length > 9 &&
 		phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?)|(?:\(?0))(?:\d{2}\)?\s?\d{4}\s?\d{4}|\d{3}\)?\s?\d{3}\s?\d{3,4}|\d{4}\)?\s?(?:\d{5}|\d{3}\s?\d{3})|\d{5}\)?\s?\d{4,5})$/ );
 }, "Please specify a valid phone number" );
-
 /**
  * Matches US phone number format
  *
@@ -1247,7 +1221,6 @@ $.validator.addMethod( "phoneUS", function( phone_number, element ) {
 	return this.optional( element ) || phone_number.length > 9 &&
 		phone_number.match( /^(\+?1-?)?(\([2-9]([02-9]\d|1[02-9])\)|[2-9]([02-9]\d|1[02-9]))-?[2-9]\d{2}-?\d{4}$/ );
 }, "Please specify a valid phone number" );
-
 /*
 * Valida CEPs do brasileiros:
 *
@@ -1259,7 +1232,6 @@ $.validator.addMethod( "phoneUS", function( phone_number, element ) {
 $.validator.addMethod( "postalcodeBR", function( cep_value, element ) {
 	return this.optional( element ) || /^\d{2}.\d{3}-\d{3}?$|^\d{5}-?\d{3}?$/.test( cep_value );
 }, "Informe um CEP válido." );
-
 /**
  * Matches a valid Canadian Postal Code
  *
@@ -1276,7 +1248,6 @@ $.validator.addMethod( "postalcodeBR", function( cep_value, element ) {
 $.validator.addMethod( "postalCodeCA", function( value, element ) {
 	return this.optional( element ) || /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ] *\d[ABCEGHJKLMNPRSTVWXYZ]\d$/i.test( value );
 }, "Please specify a valid postal code" );
-
 /* Matches Italian postcode (CAP) */
 $.validator.addMethod( "postalcodeIT", function( value, element ) {
 	return this.optional( element ) || /^\d{5}$/.test( value );
@@ -1290,7 +1261,6 @@ $.validator.addMethod( "postalcodeNL", function( value, element ) {
 $.validator.addMethod( "postcodeUK", function( value, element ) {
 	return this.optional( element ) || /^((([A-PR-UWYZ][0-9])|([A-PR-UWYZ][0-9][0-9])|([A-PR-UWYZ][A-HK-Y][0-9])|([A-PR-UWYZ][A-HK-Y][0-9][0-9])|([A-PR-UWYZ][0-9][A-HJKSTUW])|([A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRVWXY]))\s?([0-9][ABD-HJLNP-UW-Z]{2})|(GIR)\s?(0AA))$/i.test( value );
 }, "Please specify a valid UK postcode" );
-
 /*
  * Lets you say "at least X inputs that match selector Y must be filled."
  *
@@ -1328,7 +1298,6 @@ $.validator.addMethod( "require_from_group", function( value, element, options )
 	}
 	return isValid;
 }, $.validator.format( "Please fill at least {0} of these fields." ) );
-
 /*
  * Lets you say "either at least X inputs that match selector Y must be filled,
  * OR they must all be skipped (left blank)."
@@ -1372,7 +1341,6 @@ $.validator.addMethod( "skip_or_fill_minimum", function( value, element, options
 	}
 	return isValid;
 }, $.validator.format( "Please either skip these fields or fill at least {0} of them." ) );
-
 /* Validates US States and/or Territories by @jdforsythe
  * Can be case insensitive or require capitalization - default is case insensitive
  * Can include US Territories or not - default does not
@@ -1427,7 +1395,6 @@ $.validator.addMethod( "stateUS", function( value, element, options ) {
 	regex = caseSensitive ? new RegExp( regex ) : new RegExp( regex, "i" );
 	return this.optional( element ) || regex.test( value );
 }, "Please specify a valid state" );
-
 // TODO check if value starts with <, otherwise don't try stripping anything
 $.validator.addMethod( "strippedminlength", function( value, element, param ) {
 	return $( value ).text().length >= param;
@@ -1445,7 +1412,6 @@ $.validator.addMethod( "time12h", function( value, element ) {
 $.validator.addMethod( "url2", function( value, element ) {
 	return this.optional( element ) || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test( value );
 }, $.validator.messages.url );
-
 /**
  * Return true, if the value is a valid vehicle identification number (VIN).
  *

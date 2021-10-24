@@ -78,7 +78,7 @@ export default function Dashboard() {
                     <p>Registered Users</p>
                   </div>
                   <div className="icon">
-                    <i className="ion ion-bag"></i>
+                    <i className="ion ion-person"></i>
                   </div>
                   <a href="/registered-users" className="small-box-footer">
                     More info <i className="fas fa-arrow-circle-right"></i>
@@ -110,7 +110,7 @@ export default function Dashboard() {
                     <p>Workspaces</p>
                   </div>
                   <div className="icon">
-                    <i className="ion ion-person-add"></i>
+                    <i className="ion ion-laptop"></i>
                   </div>
                   <a href="/workspaces" className="small-box-footer">
                     More info <i className="fas fa-arrow-circle-right"></i>

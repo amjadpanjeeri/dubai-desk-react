@@ -124,7 +124,7 @@ export default function NewWorkspace(props) {
                     <option value="Virtual Office">Virtual Office</option>
                   </select>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="workspace-type">Workspace Facilities</label>
                   <div className="form-check">
                     <input className="form-check-input" type="checkbox"></input>
@@ -138,7 +138,7 @@ export default function NewWorkspace(props) {
                     <input className="form-check-input" type="checkbox"></input>
                     <label className="form-check-label">Food</label>
                   </div>
-                </div>
+                </div> */}
                 <div className="form-group">
                   <label htmlFor="owner-name">Owner Name</label>
                   <input

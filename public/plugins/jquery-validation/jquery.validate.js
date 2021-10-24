@@ -1617,7 +1617,11 @@ $.extend( $.validator, {
 	}
 
 } );
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> cb14b90b64cca530553c499c7b5c1f321f9f3ce9
 // Ajax mode: abort
 // usage: $.ajax({ mode: "abort"[, port: "uniqueport"]});
 // if mode:"abort" is used, the previous request on that port (port can be undefined) is aborted via XMLHttpRequest.abort()

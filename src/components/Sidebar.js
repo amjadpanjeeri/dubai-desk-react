@@ -6,8 +6,8 @@ export default function SideBar() {
 
         <div>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
-                <a href="index3.html" className="brand-link">
-                    <img src="Dubai Desk1.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: ".8" }} />
+                <a href="/" className="brand-link">
+                    <img src="Dubai Desk1.png" alt="Dubai Desk Logo" className="brand-image img-circle elevation-3" style={{ opacity: ".8" }} />
                     <span className="brand-text font-weight-light">Dubai Desk</span>
                 </a>
 
