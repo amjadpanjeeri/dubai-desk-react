@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import firebaseConfig from "./firebase/firebaseConfig";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/auth/LoginPage";
@@ -19,6 +15,9 @@ import AllBookingRequests from "./pages/bookingRequests/AllBookingRequests";
 import NewWorkspace from "./components/workspace/newWorkspace";
 import EditWorkspace from "./components/workspace/editWorkspace";
 import AllRequests from "./pages/Ejarirequests/AllEjariRequests";
+import AllEjariRequests from "./pages/Ejarirequests/AllEjariRequests";
+import AllVirtualSpaceRequests from "./pages/VirtualSpaceRequest/Allvirtualrequests";
+import AllWorkspaceRequests from "./pages/workspaceRequest/AllworkspaceRequest";
 
 export default function App(props) {
   const [currentUser, setcurretUser] = useState(null);
@@ -55,7 +54,21 @@ export default function App(props) {
 
                 <Route exact path="/registered-users" component={AllUsers} />
                 <Route exact path="/workspaces" component={AllWorkspaces} />
-                <Route exact path="/requests" component={AllRequests} />
+                <Route
+                  exact
+                  path="/ejari-requests"
+                  component={AllEjariRequests}
+                />
+                <Route
+                  exact
+                  path="/virtual-office-requests"
+                  component={AllVirtualSpaceRequests}
+                />
+                <Route
+                  exact
+                  path="/workspace-requests"
+                  component={AllWorkspaceRequests}
+                />
                 <Route
                   exact
                   path="/booking-requests"

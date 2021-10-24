@@ -38,14 +38,28 @@ export default function SideBar() {
                             <li className="nav-item menu-open">
                                 <a href="booking-requests" className="nav-link">
                                     <p className="text-white nav-link">
-                                        Booking Requests
+                                        Bookings
                                     </p>
                                 </a>
                             </li>
                             <li className="nav-item menu-open">
-                                <a href="requests" className="nav-link">
+                                <a href="ejari-requests" className="nav-link">
                                     <p className="text-white nav-link">
-                                        Requests
+                                        Ejari Requests
+                                    </p>
+                                </a>
+                            </li>
+                            <li className="nav-item menu-open">
+                                <a href="virtual-office-requests" className="nav-link">
+                                    <p className="text-white nav-link">
+                                        Virtual Office Requests
+                                    </p>
+                                </a>
+                            </li>
+                            <li className="nav-item menu-open">
+                                <a href="workspace-requests" className="nav-link">
+                                    <p className="text-white nav-link">
+                                        Workspace Requests
                                     </p>
                                 </a>
                             </li>

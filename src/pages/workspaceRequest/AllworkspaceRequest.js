@@ -8,41 +8,101 @@ import {
   orderBy,
   limit,
   getDocs,
+  updateDoc,
+  doc,
+  setDoc,
 } from "firebase/firestore";
 import UsersCard from "../../components/users/UsersCard";
 import { Link } from "react-router-dom";
 import SideBar from "../../components/Sidebar";
 import NavBar from "../../components/NavBar";
 import TopHeader from "../../components/TopHeader";
-function AllBookingRequests(props) {
-  const [bookingRequests, setbookingRequests] = useState([]);
+function AllWorkspaceRequests(props) {
+  const [requests, setrequests] = useState([]);
   useEffect(() => {
     const db = getFirestore();
-    const bookingRequestsRef = collection(db, "bookings");
+    const requestsRef = collection(db, "addRequests");
     //Create a query against the collection.
     const q = query(
-      bookingRequestsRef,
-      // where("state", "==", "CA"),
-      orderBy("timeStamp")
+      requestsRef,
+      where("type", "==", "workspace")
+      //   orderBy("time"),
       //   limit(10)
     );
     const querySnapshot = getDocs(q);
     querySnapshot.then((doc) => {
-      let bookingRequests = [];
+      let requests = [];
       console.log(doc.size);
 
       doc.forEach((doc) => {
-        bookingRequests.push(doc.data());
+        requests.push(doc.data());
       });
-      setbookingRequests(bookingRequests);
+      setrequests(requests);
       console.log(querySnapshot);
     });
   }, []);
+
+  const handleAccept = (spaceId) => {
+    console.log(spaceId);
+    let confirm = window.confirm(
+      "Are you sure you want to accept this request?"
+    );
+    console.log(confirm);
+
+    if (confirm) {
+      const db = getFirestore();
+      const updateRequest = doc(db, "addRequests", spaceId);
+
+      const docRef = setDoc(
+        updateRequest,
+        {
+          status: "accepted",
+        },
+        { merge: true }
+      );
+      docRef
+        .then(function () {
+          alert("Request updated successfully");
+        })
+        .catch(function (error) {
+          alert("Error updating request");
+        });
+    }
+  };
+
+  const handleReject = (spaceId) => {
+    console.log(spaceId);
+    let confirm = window.confirm(
+      "Are you sure you want to reject this request?"
+    );
+    console.log(confirm);
+
+    if (confirm) {
+      const db = getFirestore();
+      const updateRequest = doc(db, "addRequests", spaceId);
+
+      const docRef = setDoc(
+        updateRequest,
+        {
+          status: "rejected",
+        },
+        { merge: true }
+      );
+      docRef
+        .then(function () {
+          alert("Request updated successfully");
+        })
+        .catch(function (error) {
+          alert("Error updating request");
+        });
+    }
+  };
+
   return (
     <div>
       <SideBar />
       <div className="content-wrapper">
-        <TopHeader headerValue="Booking Requests" />
+        <TopHeader headerValue="Workspace Requests" />
         <section className="content">
           <div class="modal fade" id="modal-success">
             <div class="modal-dialog">
@@ -115,7 +175,7 @@ function AllBookingRequests(props) {
               <div className="col-12">
                 <div className="card">
                   <div className="card-header">
-                    <h3 className="card-title">Booking Requests</h3>
+                    <h3 className="card-title">Workspace Requests</h3>
                     <div className="card-tools">
                       <div
                         className="input-group input-group-sm"
@@ -127,73 +187,64 @@ function AllBookingRequests(props) {
                     <table className="table table-hover text-nowrap">
                       <thead>
                         <tr>
-                          <th>User Name</th>
-                          <th>Workspace Name</th>
-                          <th>Workspace Type</th>
-                          <th>Specification</th>
-                          <th>Facilities</th>
-                          <th>Additional Facilities</th>
-                          <th>Special Requests</th>
+                          <th>User Id</th>
+                          <th>Requeted Time</th>
+                          {/* <th>Type</th> */}
                           <th>Status</th>
-                          <th>isSingleDay</th>
-                          <th>From Date</th>
-                          <th>To Date</th>
-                          <th>From Time</th>
-                          <th>To Time</th>
-                          {/* <th>Actions</th> */}
+                          <th>Email</th>
+                          <th>Phone</th>
+                          {/* <th>Facilities</th>
+                            <th>Additional Facilities</th>
+                            <th>Special Requests</th>
+                            <th>Status</th>
+                            <th>isSingleDay</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>From Time</th>
+                            <th>To Time</th> */}
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {bookingRequests ? (
-                          bookingRequests.map((bookingRequest, index) => {
+                        {requests ? (
+                          requests.map((bookingRequest, index) => {
                             return (
                               <tr>
                                 <td>{bookingRequest.userId}</td>
-                                <td>{bookingRequest.spaceId}</td>
-                                <td>{bookingRequest.type}</td>
-                                <td>{bookingRequest.spec}</td>
-                                <td>{bookingRequest.facilities.join(", ")}</td>
                                 <td>
-                                  {bookingRequest.additionalFacilities.join(
-                                    ", "
+                                  {bookingRequest.time.toDate().toDateString()}
+                                </td>
+                                {/* <td>{bookingRequest.type}</td> */}
+                                <td>{bookingRequest.status}</td>
+                                <td>{bookingRequest.clientEmail || ""}</td>
+                                <td>{bookingRequest.clientPhone || ""}</td>
+                                <td>
+                                  {bookingRequest.status === "requested" ? (
+                                    <div className="text-center">
+                                      <a
+                                        href="#"
+                                        className="btn btn-sm btn-success"
+                                        onClick={() =>
+                                          handleAccept(bookingRequest.requestId)
+                                        }
+                                      >
+                                        Accept
+                                      </a>
+                                      &nbsp;
+                                      <a
+                                        href="#"
+                                        className="btn btn-sm btn-danger"
+                                        onClick={() =>
+                                          handleReject(bookingRequest.requestId)
+                                        }
+                                      >
+                                        Reject
+                                      </a>
+                                    </div>
+                                  ) : (
+                                    <div className="text-center">{bookingRequest.status}</div>
                                   )}
                                 </td>
-                                <td>
-                                  {bookingRequest.specialRequests ||
-                                    "No requests"}
-                                </td>
-                                <td>{bookingRequest.status}</td>
-                                <td>
-                                  {bookingRequest.isSingleDay
-                                    ? "Single Day"
-                                    : "Multiple Day"}
-                                </td>
-                                <td>
-                                  {bookingRequest.fromDate
-                                    .toDate()
-                                    .toDateString()}
-                                </td>
-                                <td>
-                                  {bookingRequest.toDate
-                                    .toDate()
-                                    .toDateString()}
-                                </td>
-                                <td>{bookingRequest.fromTime}</td>
-                                <td>{bookingRequest.toTime}</td>
-                                {/* <td>
-                                <div className="text-center">
-                                  <a
-                                    href="#"
-                                    className="btn btn-sm btn-primary"
-                                  >
-                                    Edit
-                                  </a>
-                                  &nbsp;
-                                  <a href="#" className="btn btn-sm btn-danger">
-                                    Delete
-                                  </a>
-                                </div>
-                              </td> */}
                               </tr>
                             );
                           })
@@ -213,4 +264,4 @@ function AllBookingRequests(props) {
   );
 }
 
-export default AllBookingRequests;
+export default AllWorkspaceRequests;

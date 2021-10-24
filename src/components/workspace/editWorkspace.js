@@ -74,7 +74,12 @@ export default function EditWorkspace(props) {
     // var storage = firebase.storage();
     const storageRef = ref(
       storage,
-      "workspaces/" + props.match.params.id + "/" + file["name"]
+      "workspaces/" +
+        props.match.params.id +
+        "/" +
+        props.match.params.id +
+        "." +
+        file["type"]
     );
     const metadata = {
       contentType: "image/jpeg",
@@ -118,7 +123,7 @@ export default function EditWorkspace(props) {
           "fr-to": endto,
         },
         workspaceType: workspace,
-        spaceId:props.match.params.id,
+        spaceId: props.match.params.id,
         name: name || "No Name",
         photoUrl: photoUrl,
       },

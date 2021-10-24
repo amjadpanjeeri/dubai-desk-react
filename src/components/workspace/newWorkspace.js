@@ -115,7 +115,7 @@ export default function NewWorkspace(props) {
               <h3 className="card-title">Add New Workspace</h3>
             </div>
 
-            <form onSubmit={handleSubmit} method="post">
+            <form onSubmit={handleSubmit}>
               <div className="card-body">
                 <div className="form-group">
                   <label htmlFor="name">Workspace Name</label>

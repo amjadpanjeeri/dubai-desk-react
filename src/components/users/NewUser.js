@@ -50,55 +50,64 @@ export default function NewUser() {
       <div className="content-wrapper">
         <TopHeader headerValue="Add New User" />
         <section className="content">
-          <form className="col-7" onSubmit={handleSubmit}>
-            <div class="form-group">
-              <label for="Name">Name</label>
-              <input
-                type="text"
-                id="Name"
-                value={name}
-                onChange={(e) => setname(e.target.value)}
-                required
-                class="form-control"
-              />
-            </div>
-            <div class="form-group">
-              <label for="email">E-Mail</label>
-              <input
-                type="email"
-                id="email"
-                class="form-control"
-                value={email}
-                onChange={(e) => setemail(e.target.value)}
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone</label>
-              <input
-                type="tel"
-                id="phone"
-                class="form-control"
-                value={phone}
-                // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                onChange={(e) => setphone(e.target.value)}
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="inputMessage">DOB:</label>
-              <input
-                name="dob"
-                type="date"
-                value={dob}
-                class="form-control"
-                onChange={(e) => setdob(e.target.value)}
-                required
-              />{" "}
+          <div className="card card-primary col-md-8">
+            <div className="card-header">
+              <h3 className="card-title">Add New Workspace</h3>
             </div>
 
-            <button className="btn btn-success">Submit</button>
-          </form>
+            <form onSubmit={handleSubmit}>
+              <div className="card-body">
+                <div class="form-group">
+                  <label for="Name">Name</label>
+                  <input
+                    type="text"
+                    id="Name"
+                    value={name}
+                    onChange={(e) => setname(e.target.value)}
+                    required
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="email">E-Mail</label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    class="form-control"
+                    value={phone}
+                    // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+                    onChange={(e) => setphone(e.target.value)}
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="inputMessage">DOB:</label>
+                  <input
+                    name="dob"
+                    type="date"
+                    value={dob}
+                    class="form-control"
+                    onChange={(e) => setdob(e.target.value)}
+                    required
+                  />{" "}
+                </div>
+                <div className="modal-footer justify-content-right">
+                  <button className="btn btn-success">Create User</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </section>
       </div>
     </div>

@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import SideBar from "../../components/Sidebar";
 import NavBar from "../../components/NavBar";
 import TopHeader from "../../components/TopHeader";
-function AllRequests(props) {
+function AllEjariRequests(props) {
   const [requests, setrequests] = useState([]);
   useEffect(() => {
     const db = getFirestore();
@@ -25,8 +25,8 @@ function AllRequests(props) {
     //Create a query against the collection.
     const q = query(
       requestsRef,
-      // where("state", "==", "CA"),
-      orderBy("time")
+      where("type", "==", "ejari")
+      //   orderBy("time"),
       //   limit(10)
     );
     const querySnapshot = getDocs(q);
@@ -102,7 +102,7 @@ function AllRequests(props) {
     <div>
       <SideBar />
       <div className="content-wrapper">
-        <TopHeader headerValue="Requests" />
+        <TopHeader headerValue="Ejari Requests" />
         <section className="content">
           <div class="modal fade" id="modal-success">
             <div class="modal-dialog">
@@ -175,24 +175,25 @@ function AllRequests(props) {
               <div className="col-12">
                 <div className="card">
                   <div className="card-header">
-                    <h3 className="card-title">Booking Requests</h3>
+                    <h3 className="card-title">Ejari Requests</h3>
                     <div className="card-tools">
                       <div
                         className="input-group input-group-sm"
                         style={{ width: "150px" }}
                       ></div>
                     </div>
-                    <div className="card-body table-responsive p-0">
-                      <table className="table table-hover text-nowrap">
-                        <thead>
-                          <tr>
-                            <th>User Id</th>
-                            <th>Requeted Time</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            {/* <th>Facilities</th>
+                  </div>
+                  <div className="card-body table-responsive p-0">
+                    <table className="table table-hover text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>User Id</th>
+                          <th>Requeted Time</th>
+                          {/* <th>Type</th> */}
+                          <th>Status</th>
+                          <th>Email</th>
+                          <th>Phone</th>
+                          {/* <th>Facilities</th>
                             <th>Additional Facilities</th>
                             <th>Special Requests</th>
                             <th>Status</th>
@@ -201,64 +202,57 @@ function AllRequests(props) {
                             <th>To Date</th>
                             <th>From Time</th>
                             <th>To Time</th> */}
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {requests ? (
-                            requests.map((bookingRequest, index) => {
-                              return (
-                                <tr>
-                                  <td>{bookingRequest.userId}</td>
-                                  <td>
-                                    {bookingRequest.time
-                                      .toDate()
-                                      .toDateString()}
-                                  </td>
-                                  <td>{bookingRequest.type}</td>
-                                  <td>{bookingRequest.status}</td>
-                                  <td>{bookingRequest.email || ""}</td>
-                                  <td>{bookingRequest.phone || ""}</td>
-                                  <td>
-                                    {bookingRequest.status === "requested" ? (
-                                      <div className="text-center">
-                                        <a
-                                          href="#"
-                                          className="btn btn-sm btn-success"
-                                          onClick={() =>
-                                            handleAccept(
-                                              bookingRequest.requestId
-                                            )
-                                          }
-                                        >
-                                          Accept
-                                        </a>
-                                        &nbsp;
-                                        <a
-                                          href="#"
-                                          className="btn btn-sm btn-danger"
-                                          onClick={() =>
-                                            handleReject(
-                                              bookingRequest.requestId
-                                            )
-                                          }
-                                        >
-                                          Reject
-                                        </a>
-                                      </div>
-                                    ) : (
-                                      <div>{bookingRequest.status}</div>
-                                    )}
-                                  </td>
-                                </tr>
-                              );
-                            })
-                          ) : (
-                            <div>No Users</div>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {requests ? (
+                          requests.map((bookingRequest, index) => {
+                            return (
+                              <tr>
+                                <td>{bookingRequest.userId}</td>
+                                <td>
+                                  {bookingRequest.time.toDate().toDateString()}
+                                </td>
+                                {/* <td>{bookingRequest.type}</td> */}
+                                <td>{bookingRequest.status}</td>
+                                <td>{bookingRequest.clientEmail || ""}</td>
+                                <td>{bookingRequest.clientPhone || ""}</td>
+                                <td>
+                                  {bookingRequest.status === "requested" ? (
+                                    <div className="text-center">
+                                      <a
+                                        href="#"
+                                        className="btn btn-sm btn-success"
+                                        onClick={() =>
+                                          handleAccept(bookingRequest.requestId)
+                                        }
+                                      >
+                                        Accept
+                                      </a>
+                                      &nbsp;
+                                      <a
+                                        href="#"
+                                        className="btn btn-sm btn-danger"
+                                        onClick={() =>
+                                          handleReject(bookingRequest.requestId)
+                                        }
+                                      >
+                                        Reject
+                                      </a>
+                                    </div>
+                                  ) : (
+                                    <div className="text-center">{bookingRequest.status}</div>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <div>No Users</div>
+                        )}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -270,4 +264,4 @@ function AllRequests(props) {
   );
 }
 
-export default AllRequests;
+export default AllEjariRequests;
