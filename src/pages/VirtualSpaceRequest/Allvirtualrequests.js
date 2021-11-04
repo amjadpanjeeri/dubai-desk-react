@@ -5,17 +5,11 @@ import {
   collection,
   query,
   where,
-  orderBy,
-  limit,
   getDocs,
-  updateDoc,
   doc,
   setDoc,
 } from "firebase/firestore";
-import UsersCard from "../../components/users/UsersCard";
-import { Link } from "react-router-dom";
 import SideBar from "../../components/Sidebar";
-import NavBar from "../../components/NavBar";
 import TopHeader from "../../components/TopHeader";
 function AllVirtualSpaceRequests(props) {
   const [requests, setrequests] = useState([]);
@@ -187,12 +181,13 @@ function AllVirtualSpaceRequests(props) {
                     <table className="table table-hover text-nowrap">
                       <thead>
                         <tr>
-                          <th>User Id</th>
+                          <th>Email</th>
+                          <th>Phone</th>
                           <th>Requeted Time</th>
                           {/* <th>Type</th> */}
                           <th>Status</th>
-                          <th>Email</th>
-                          <th>Phone</th>
+
+                          <th>User Id</th>
                           {/* <th>Facilities</th>
                             <th>Additional Facilities</th>
                             <th>Special Requests</th>
@@ -210,14 +205,15 @@ function AllVirtualSpaceRequests(props) {
                           requests.map((bookingRequest, index) => {
                             return (
                               <tr>
-                                <td>{bookingRequest.userId}</td>
+                                <td>{bookingRequest.clientEmail || ""}</td>
+                                <td>{bookingRequest.clientPhone || ""}</td>
                                 <td>
                                   {bookingRequest.time.toDate().toDateString()}
                                 </td>
                                 {/* <td>{bookingRequest.type}</td> */}
                                 <td>{bookingRequest.status}</td>
-                                <td>{bookingRequest.clientEmail || ""}</td>
-                                <td>{bookingRequest.clientPhone || ""}</td>
+                                <td>{bookingRequest.userId}</td>
+
                                 <td>
                                   {bookingRequest.status === "requested" ? (
                                     <div className="text-center">
@@ -242,7 +238,9 @@ function AllVirtualSpaceRequests(props) {
                                       </a>
                                     </div>
                                   ) : (
-                                    <div className="text-center">{bookingRequest.status}</div>
+                                    <div className="text-center">
+                                      {bookingRequest.status}
+                                    </div>
                                   )}
                                 </td>
                               </tr>
