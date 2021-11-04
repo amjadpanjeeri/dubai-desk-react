@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import {
   doc,
@@ -43,7 +44,7 @@ export default function ManageUser(props) {
       }
     });
     // console.log(docSnap);
-  }, []);
+  },);
 
   const handleSubmit = (event) => {
     const db = getFirestore();

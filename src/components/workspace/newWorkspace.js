@@ -1,15 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
   getFirestore,
   collection,
   setDoc,
   doc,
-  documentId,
 } from "firebase/firestore";
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
 import { getAuth } from "firebase/auth";
-import { dropzone } from "react-dropzone";
 import {
   getStorage,
   ref,

@@ -29,9 +29,7 @@ export default function LoginPage(props) {
     <div className="hold-transition login-page">
       <div className="login-box">
         <div className="login-logo">
-          <a href="">
-            <b>Dubai</b>Desk
-          </a>
+          <b>Dubai</b>Desk
         </div>
         <div className="card">
           <div className="card-body login-card-body">

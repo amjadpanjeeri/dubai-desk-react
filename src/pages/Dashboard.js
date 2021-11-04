@@ -4,9 +4,6 @@ import {
   getFirestore,
   collection,
   query,
-  where,
-  orderBy,
-  limit,
   getDocs,
 } from "firebase/firestore";
 import TopHeader from "../components/TopHeader";
@@ -25,7 +22,7 @@ export default function Dashboard() {
       //   setuserscount(userscount);
       console.log(userscount);
     });
-  }, []);
+  },);
 
 
   const [workspaceCount, setworkspaceCount] = useState([]);
@@ -40,7 +37,7 @@ export default function Dashboard() {
       setworkspaceCount(doc.size);
       console.log(workspaceCount);
     });
-  }, []);
+  }, );
 
 
   const [bookingRequestCount, setbookingRequestCount] = useState([]);
@@ -55,7 +52,7 @@ export default function Dashboard() {
       setbookingRequestCount(doc.size);
       console.log(bookingRequestCount);
     });
-  }, []);
+  }, );
 
 
 

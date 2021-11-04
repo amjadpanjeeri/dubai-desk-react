@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import TopHeader from "../TopHeader";
@@ -64,7 +65,7 @@ export default function EditWorkspace(props) {
       }
     });
     // console.log(docSnap);
-  }, []);
+  },);
 
   const handleSubmit = (event) => {
     event.preventDefault();

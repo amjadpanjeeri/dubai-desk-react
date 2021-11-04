@@ -5,17 +5,11 @@ import {
   collection,
   query,
   where,
-  orderBy,
-  limit,
   getDocs,
-  updateDoc,
   doc,
   setDoc,
 } from "firebase/firestore";
-import UsersCard from "../../components/users/UsersCard";
-import { Link } from "react-router-dom";
 import SideBar from "../../components/Sidebar";
-import NavBar from "../../components/NavBar";
 import TopHeader from "../../components/TopHeader";
 function AllEjariRequests(props) {
   const [requests, setrequests] = useState([]);

@@ -4,15 +4,10 @@ import {
   getFirestore,
   collection,
   query,
-  where,
   orderBy,
-  limit,
   getDocs,
 } from "firebase/firestore";
-import UsersCard from "../../components/users/UsersCard";
-import { Link } from "react-router-dom";
 import SideBar from "../../components/Sidebar";
-import NavBar from "../../components/NavBar";
 import TopHeader from "../../components/TopHeader";
 function AllBookingRequests(props) {
   const [bookingRequests, setbookingRequests] = useState([]);

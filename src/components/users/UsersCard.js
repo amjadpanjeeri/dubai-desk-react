@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 export default function UsersCard(props) {
   return (
     <tr>
@@ -10,7 +9,7 @@ export default function UsersCard(props) {
       <td>{props.user?.createdTime}</td>
       <td>{props.user?.loginMethod}</td>
       <td>
-        <div className="text-center">
+        {/* <div className="text-center">
           <a href="#" className="btn btn-sm btn-primary">
             Edit
           </a>
@@ -18,7 +17,7 @@ export default function UsersCard(props) {
           <a href="#" className="btn btn-sm btn-danger">
             Delete
           </a>
-        </div>
+        </div> */}
       </td>
     </tr>
     // <div style={{padding:20}}>

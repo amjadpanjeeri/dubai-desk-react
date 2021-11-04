@@ -64,7 +64,7 @@ export default function SideBar() {
                                 </a>
                             </li>
                             <li className="nav-item menu-open">
-                                <a href="#" className="nav-link">
+                                <a href="/" className="nav-link">
                                     <p className="text-white nav-link">
                                         Sales History
                                     </p>
