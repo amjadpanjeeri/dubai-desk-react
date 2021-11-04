@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import firebaseConfig from "./firebase/firebaseConfig";
 import { initializeApp } from "firebase/app";
@@ -37,7 +38,7 @@ export default function App(props) {
         setcurretUser(null);
       }
     });
-  }, [currentUser]);
+  }, [auth, currentUser]);
 
   initializeApp(firebaseConfig);
   return (
