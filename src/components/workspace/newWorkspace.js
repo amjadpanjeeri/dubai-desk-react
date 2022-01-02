@@ -1,11 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import {
-  getFirestore,
-  collection,
-  setDoc,
-  doc,
-} from "firebase/firestore";
+import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
 import TopHeader from "../TopHeader";
 import SideBar from "../Sidebar";
 import { getAuth } from "firebase/auth";
@@ -88,6 +83,34 @@ export default function NewWorkspace(props) {
               "fr-from": endfrom,
               "fr-to": endto,
             },
+            price: {
+              "Conference Hall": {
+                BusinessMeetingPerDay: 0,
+                BusinessMeetingPerHour: 0,
+                SeminarPerDay: 0,
+                SeminarPerHour: 0,
+                ProductLaunchPerDay: 0,
+                ProductLaunchPerHour: 0,
+              },
+              "Meeting Room": {
+                MeetingPerDay: 0,
+                MeetingPerHour: 0,
+              },
+              "Office Space": {
+                _20sqftPerDay: 0,
+                _20sqftPerHour: 0,
+                _100sqftPerDay: 0,
+                _100sqftPerHour: 0,
+                _500sqftPerDay: 0,
+                _500sqftPerHour: 0,
+              },
+              Coworking: {
+                OneCompanyPerDay: 0,
+                OneCompanyPerHour: 0,
+                MultipleCompanyPerDay: 0,
+                MultipleCompanyPerHour: 0,
+              },
+            },
             spaceId: workspaceId.id,
             workspaceType: workspace,
             name: name || "No Name",
@@ -96,23 +119,22 @@ export default function NewWorkspace(props) {
           docRef
             .then(function (docRef) {
               alert("Workspace Added Successfully");
-
             })
             .catch(function (error) {
               console.error("Error adding workspace: ", error);
             });
-            setaddedby("");
-            setaddress("");
-            setdescription("");
-            setdescription("");
-            setendfrom("");
-            setendto("");
-            setname("");
-            setowner("");
-            setweekfrom("");
-            setweekto("");
-            setworkspace("");
-            setworkspaceimagefile("");
+          setaddedby("");
+          setaddress("");
+          setdescription("");
+          setdescription("");
+          setendfrom("");
+          setendto("");
+          setname("");
+          setowner("");
+          setweekfrom("");
+          setweekto("");
+          setworkspace("");
+          setworkspaceimagefile("");
         });
       }
     );

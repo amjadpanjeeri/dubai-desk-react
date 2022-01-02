@@ -15,6 +15,7 @@ import AllWorkspaces from "./pages/workspace/Allworkspaces";
 import AllBookingRequests from "./pages/bookingRequests/AllBookingRequests";
 import NewWorkspace from "./components/workspace/newWorkspace";
 import EditWorkspace from "./components/workspace/editWorkspace";
+import EditWorkspacePrice from "./components/workspace_price/editPrice";
 import AllRequests from "./pages/Ejarirequests/AllEjariRequests";
 import AllEjariRequests from "./pages/Ejarirequests/AllEjariRequests";
 import AllVirtualSpaceRequests from "./pages/VirtualSpaceRequest/Allvirtualrequests";
@@ -85,6 +86,7 @@ export default function App(props) {
 
                 <Route exact path="/users/:id" component={ManageUser} />
                 <Route exact path="/workspace/:id" component={EditWorkspace} />
+                <Route exact path="/workspace_price/:id" component={EditWorkspacePrice} />
               </div>
             ) : (
               <div>

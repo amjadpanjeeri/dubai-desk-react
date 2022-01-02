@@ -10,7 +10,7 @@ import {
   limit,
   getDocs,
   doc,
-  deleteDoc
+  deleteDoc,
 } from "firebase/firestore";
 import UsersCard from "../../components/users/UsersCard";
 import { Link } from "react-router-dom";
@@ -40,8 +40,7 @@ export default function AllUsers() {
     });
   }, []);
 
-
-  const handleDelete = (uid) => {
+  const handleDelete = (uid, event) => {
     let confirm = window.confirm("Are you sure you want to delete this uid?");
     console.log(confirm);
     if (confirm) {
@@ -57,6 +56,7 @@ export default function AllUsers() {
         });
     } else {
     }
+    event.preventDefault();
   };
 
   return (
@@ -150,11 +150,13 @@ export default function AllUsers() {
                                 <td>{user.email}</td>
                                 <td>{user.dob}</td>
                                 <td>{user.phone}</td>
-                                <td>{user.createdTime.toDate().toDateString()}</td>
+                                <td>
+                                  {user.createdTime.toDate().toDateString()}
+                                </td>
                                 <td>{user.loginMethord}</td>
                                 <td>
                                   <div className="text-center">
-                                  <Link
+                                    <Link
                                       className="text-white"
                                       to={`/users/${user.uid}`}
                                     >

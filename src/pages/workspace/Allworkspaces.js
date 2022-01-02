@@ -14,7 +14,6 @@ import SideBar from "../../components/Sidebar";
 import TopHeader from "../../components/TopHeader";
 // import { useDropzone } from "react-dropzone";
 
-
 export default function AllWorkspaces() {
   const [workspaces, setworkspaces] = useState([]);
   useEffect(() => {
@@ -127,12 +126,12 @@ export default function AllWorkspaces() {
                         <tr>
                           <th>Workspace Name</th>
                           <th>Address</th>
-                          <th>Description</th>
+                          <th width="20px">Description</th>
                           <th>Last Updated</th>
                           <th>Owner Name</th>
                           <th>WeekDays Time</th>
                           <th>WorkDays Time</th>
-                          {/* <th>Workspace Type</th> */}
+                          <th>Price</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -145,8 +144,12 @@ export default function AllWorkspaces() {
                                 {/* <td>ibkh</td> */}
                                 <td>{workspace.name}</td>
                                 <td>{workspace.address}</td>
-                                <td>{workspace.description}</td>
-                                <td>{workspace.lastUpdated.toDate().toDateString()}</td>
+                                <td width="10%">{workspace.description}</td>
+                                <td>
+                                  {workspace.lastUpdated
+                                    .toDate()
+                                    .toDateString()}
+                                </td>
                                 <td>{workspace.owner}</td>
                                 <td>
                                   {workspace.time["mo-from"]} to{" "}
@@ -156,7 +159,16 @@ export default function AllWorkspaces() {
                                   {workspace.time["fr-from"]} to{" "}
                                   {workspace.time["fr-to"]}
                                 </td>
-                                {/* <td>{workspace.workspaceType}</td> */}
+                                <td>
+                                  <Link
+                                    className="text-white"
+                                    to={`/workspace_price/${workspace.spaceId}`}
+                                  >
+                                    <a className="btn btn-sm btn-primary text-white">
+                                      Edit Price
+                                    </a>
+                                  </Link>
+                                </td>
                                 <td>
                                   <div className="text-center">
                                     <Link
